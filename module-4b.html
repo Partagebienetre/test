@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>4b — Adhésion, Pack & Z4F · Destination 💎</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dd-style.css">
+<style>
+/* Navigation chapitres */
+.chap-nav { display:flex; flex-wrap:wrap; gap:.5rem; margin:1.5rem 0 2rem; position:sticky; top:calc(var(--hdr) + .5rem); z-index:10; background:var(--bg); padding:.5rem 0; }
+.chap-btn { padding:.45rem 1rem; border-radius:20px; border:1.5px solid var(--border); background:var(--card); color:var(--text2); font-family:'Syne',sans-serif; font-size:var(--fs-xs); font-weight:700; cursor:pointer; transition:all .18s; white-space:nowrap; }
+.chap-btn:hover { border-color:var(--vm); color:var(--vm); background:var(--vm-pale); }
+.chap-btn.active { background:var(--vm); color:#fff; border-color:var(--vm); }
+.chap-section { display:none; }
+.chap-section.active { display:block; }
+
+/* Kits */
+.kits-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:1.2rem 0 1.5rem; }
+@media(max-width:600px){ .kits-grid { grid-template-columns:1fr; } }
+.kit-card { border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); border:2px solid var(--border); transition:transform .2s; }
+.kit-card:hover { transform:translateY(-3px); }
+.kit-card.kit-featured { border-color:var(--gold); }
+.kit-hdr { padding:1rem 1.1rem; text-align:center; }
+.kh-basic    { background:linear-gradient(135deg,#EDE9FE,#DDD6FE); }
+.kh-advanced { background:linear-gradient(135deg,#D1FAE5,#A7F3D0); }
+.kh-ultimate { background:linear-gradient(135deg,#1E0B40,#3B1F7A); }
+.kit-emoji { font-size:2rem; display:block; margin-bottom:.4rem; }
+.kit-name { font-family:'Syne',sans-serif; font-weight:900; font-size:1rem; display:block; }
+.kit-name-basic    { color:var(--vm); }
+.kit-name-advanced { color:#059669; }
+.kit-name-ultimate { color:var(--gold); }
+.kit-badge { font-family:'Syne',sans-serif; font-size:.6rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; padding:.2rem .55rem; border-radius:20px; display:inline-block; margin-top:.3rem; }
+.kb-b { background:var(--vm-light); color:var(--vm); }
+.kb-a { background:#D1FAE5; color:#065F46; }
+.kb-u { background:rgba(201,168,76,.2); color:var(--gold); }
+.kit-body { background:var(--card); padding:1rem 1.1rem; }
+.kit-row { display:flex; justify-content:space-between; align-items:center; padding:.4rem 0; border-bottom:1px solid var(--border); font-family:'Playfair Display',serif; font-size:var(--fs-sm); }
+.kit-row:last-child { border-bottom:none; }
+.kr-label { color:var(--text2); }
+.kr-val { font-family:'Syne',sans-serif; font-weight:700; color:var(--text); font-size:var(--fs-xs); }
+.kr-val.gold { color:var(--gold); }
+.kit-note { font-family:'Playfair Display',serif; font-size:var(--fs-xs); color:var(--text2); font-style:italic; margin-top:.7rem; line-height:1.5; }
+
+/* Enrollment points tableau */
+.enroll-tbl { width:100%; border-collapse:collapse; margin:1.2rem 0; font-family:'Playfair Display',serif; font-size:var(--fs-sm); }
+.enroll-tbl th { background:var(--vm); color:#fff; font-family:'Syne',sans-serif; font-size:var(--fs-xs); font-weight:800; text-transform:uppercase; letter-spacing:.05em; padding:.6rem .9rem; text-align:left; }
+.enroll-tbl td { padding:.6rem .9rem; border-bottom:1px solid var(--border); vertical-align:middle; }
+.enroll-tbl tr:nth-child(even) td { background:var(--vm-pale); }
+.ep-dots { display:flex; gap:.3rem; }
+.ep-dot { width:12px; height:12px; border-radius:50%; background:var(--vm); }
+
+/* Z4F explication */
+.z4f-visual { background:linear-gradient(135deg,#1E0B40,#3B1F7A); border-radius:18px; padding:1.8rem; margin:1.5rem 0; }
+.z4f-visual h3 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--gold); margin-bottom:1rem; }
+.z4f-steps-list { display:grid; gap:.7rem; }
+.zsl-item { display:grid; grid-template-columns:32px 1fr; gap:.8rem; align-items:start; background:rgba(255,255,255,.07); border-radius:10px; padding:.8rem 1rem; }
+.zsl-num { width:32px; height:32px; background:var(--gold); color:#1E0B40; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:.82rem; flex-shrink:0; }
+.zsl-text { font-family:'Playfair Display',serif; font-size:var(--fs-sm); color:rgba(255,255,255,.9); line-height:1.6; }
+.zsl-text strong { color:var(--gold); }
+.z4f-warn { background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.3); border-radius:10px; padding:.85rem 1rem; margin-top:1rem; font-family:'Playfair Display',serif; font-size:var(--fs-sm); color:rgba(255,255,255,.75); line-height:1.6; }
+
+/* Auto Order détail */
+.ao-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.3rem; box-shadow:var(--shadow); margin:1.2rem 0; }
+.ao-title { font-family:'Syne',sans-serif; font-weight:800; font-size:.9rem; color:var(--vm); margin-bottom:.8rem; display:flex; align-items:center; gap:.5rem; }
+.ao-items { display:grid; gap:.5rem; }
+.ao-item { display:flex; align-items:flex-start; gap:.6rem; font-family:'Playfair Display',serif; font-size:var(--fs-sm); color:var(--text); line-height:1.55; }
+.ao-item::before { content:'✓'; color:var(--vm); font-weight:700; flex-shrink:0; margin-top:.05rem; }
+
+/* Livraison bi-mensuelle */
+.livraison-card { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.2rem 0; }
+@media(max-width:500px){ .livraison-card { grid-template-columns:1fr; } }
+.lc-item { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:1rem 1.1rem; box-shadow:var(--shadow); text-align:center; }
+.lc-icon { font-size:1.8rem; display:block; margin-bottom:.5rem; }
+.lc-title { font-family:'Syne',sans-serif; font-weight:800; font-size:.82rem; color:var(--vm); margin-bottom:.4rem; }
+.lc-text { font-family:'Playfair Display',serif; font-size:var(--fs-sm); color:var(--text2); line-height:1.55; }
+
+/* Commande dynamique */
+.cmd-steps { display:grid; gap:.6rem; margin:1.2rem 0; }
+.cmd-item { display:grid; grid-template-columns:36px 1fr; gap:.85rem; align-items:start; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:.85rem 1rem; box-shadow:var(--shadow); }
+.cmd-num { width:36px; height:36px; background:linear-gradient(135deg,var(--vm),var(--vm2)); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:.85rem; flex-shrink:0; }
+.cmd-title { font-family:'Syne',sans-serif; font-weight:700; font-size:.88rem; color:var(--text); margin-bottom:.2rem; }
+.cmd-text { font-family:'Playfair Display',serif; font-size:var(--fs-sm); color:var(--text2); line-height:1.6; }
+.cmd-warn { display:flex; gap:.5rem; align-items:flex-start; background:#FEF3C7; border:1px solid #FDE68A; border-radius:8px; padding:.65rem .85rem; margin-top:.5rem; font-family:'Playfair Display',serif; font-size:var(--fs-sm); color:#92400E; line-height:1.55; }
+
+/* BO images */
+.bo-compare { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.2rem 0; }
+@media(max-width:600px){ .bo-compare { grid-template-columns:1fr; } }
+.bo-panel { border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+.bo-panel-hdr { padding:.75rem 1rem; font-family:'Syne',sans-serif; font-weight:800; font-size:.82rem; display:flex; align-items:center; gap:.5rem; }
+.bph-partner { background:linear-gradient(135deg,var(--vm),var(--vm2)); color:#fff; }
+.bph-client  { background:linear-gradient(135deg,#059669,#10B981); color:#fff; }
+.bo-panel-img { width:100%; display:block; border:1px solid var(--border); border-top:none; }
+.bo-panel-body { background:var(--card); border:1px solid var(--border); border-top:none; padding:.85rem 1rem; }
+.bo-panel-item { font-family:'Playfair Display',serif; font-size:var(--fs-sm); color:var(--text2); line-height:1.55; display:flex; gap:.4rem; margin-bottom:.35rem; }
+.bo-panel-item::before { content:'▸'; color:var(--vm); flex-shrink:0; }
+.bo-alert { display:flex; gap:.6rem; align-items:flex-start; border-radius:9px; padding:.7rem .9rem; margin-top:.6rem; font-family:'Playfair Display',serif; font-size:var(--fs-sm); line-height:1.55; }
+.bo-alert.warn { background:#FEF2F2; border:1px solid #FECACA; color:#991B1B; }
+.bo-alert.tip  { background:var(--vm-pale); border:1px solid var(--vm-light); color:var(--vm); }
+</style>
+</head>
+<body>
+
+<script>function ddCheckPw(){var v=document.getElementById("pw-input").value;if(v==="Diamant"){localStorage.setItem("dd_auth","1");document.getElementById("pw-overlay").style.display="none";}else{document.getElementById("pw-err").style.display="block";document.getElementById("pw-input").value="";}}if(localStorage.getItem("dd_auth")==="1"){document.getElementById("pw-overlay").style.display="none";}document.addEventListener("keydown",function(e){if(e.key==="Enter")ddCheckPw();});</script>
+
+<div id="pw-overlay"><div class="pw-box"><span class="pw-gem">💎</span><h1 class="pw-title">Destination Diamant</h1><p class="pw-sub">Formation partenaire — Espace privé</p><input type="password" class="pw-input" id="pw-input" placeholder="Mot de passe" autocomplete="off"><button class="pw-btn" id="pw-btn" onclick="ddCheckPw()">Accéder à la formation →</button><p class="pw-err" id="pw-err">Mot de passe incorrect. Réessayez.</p></div></div>
+
+<div id="srch-ov"><div id="srch-box"><div class="srch-top"><span class="srch-icon">🔍</span><input type="text" id="srch-input" placeholder="Rechercher dans toute la formation…" oninput="ddDoSearch(this.value)" autocomplete="off"><button class="srch-close" onclick="ddCloseSrch()">✕</button></div><div id="srch-results"><div class="srch-hint">Tapez un mot-clé pour chercher dans tous les modules</div></div></div></div>
+
+<header>
+  <button class="hdr-menu-btn" onclick="ddToggleSidebar()"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect y="4" width="22" height="2" rx="1" fill="currentColor"/><rect y="10" width="22" height="2" rx="1" fill="currentColor"/><rect y="16" width="22" height="2" rx="1" fill="currentColor"/></svg></button>
+  <a class="hdr-logo" href="index.html">Destination <span>💎</span></a>
+  <div class="hdr-spacer"></div>
+  <button class="hdr-btn" id="audio-btn" onclick="ddToggleAudio()">🔊 Écouter</button>
+  <button class="hdr-btn" onclick="ddOpenSrch()">🔍 Rechercher</button>
+</header>
+
+<div id="sb-overlay"></div>
+<div class="layout">
+
+<aside id="sidebar">
+  <a class="sb-logo" href="index.html">Destination <span>💎</span></a>
+  <div class="sb-progress-label" id="sb-pct-label">0% complété</div>
+  <div class="sb-progress"><div class="sb-progress-fill" id="sb-pfill" style="width:0%"></div></div>
+  <div class="sb-group"><div class="sb-group-hdr" onclick="ddToggleGroup(this)"><span class="sb-mod-num">01</span> Bienvenue — Mes Fondations<span class="sb-arrow">▶</span></div><div class="sb-items">
+    <a class="sb-item" href="module-1-1.html"><span class="sb-item-num">1.1</span> Mon Engagement & Ma Décision<span class="sb-chk" data-id="m1-1" onclick="ddToggleChk(event,'m1-1')"></span></a>
+    <a class="sb-item" href="module-1-2.html"><span class="sb-item-num">1.2</span> Mon Pourquoi<span class="sb-chk" data-id="m1-2" onclick="ddToggleChk(event,'m1-2')"></span></a>
+    <a class="sb-item" href="module-1-3.html"><span class="sb-item-num">1.3</span> Mes Rêves & Objectifs SMART<span class="sb-chk" data-id="m1-3" onclick="ddToggleChk(event,'m1-3')"></span></a>
+    <a class="sb-item" href="module-1-4.html"><span class="sb-item-num">1.4</span> Ma Planification & Agenda<span class="sb-chk" data-id="m1-4" onclick="ddToggleChk(event,'m1-4')"></span></a>
+    <a class="sb-item" href="module-1-5.html"><span class="sb-item-num">1.5</span> Mon Histoire Produit<span class="sb-chk" data-id="m1-5" onclick="ddToggleChk(event,'m1-5')"></span></a>
+    <a class="sb-item" href="module-1-6.html"><span class="sb-item-num">1.6</span> Histoire de l'Entreprise<span class="sb-chk" data-id="m1-6" onclick="ddToggleChk(event,'m1-6')"></span></a>
+  </div></div>
+  <div class="sb-group"><div class="sb-group-hdr" onclick="ddToggleGroup(this)"><span class="sb-mod-num">02</span> Les 33 Erreurs<span class="sb-arrow">▶</span></div><div class="sb-items"><a class="sb-item" href="module-2.html"><span class="sb-item-num">2</span> Les 33 erreurs à éviter<span class="sb-chk" data-id="m2" onclick="ddToggleChk(event,'m2')"></span></a></div></div>
+  <div class="sb-group"><div class="sb-group-hdr" onclick="ddToggleGroup(this)"><span class="sb-mod-num">03</span> Prospection Organique<span class="sb-arrow">▶</span></div><div class="sb-items">
+    <a class="sb-item" href="module-3a.html"><span class="sb-item-num">3a</span> La Liste de Noms<span class="sb-chk" data-id="m3a" onclick="ddToggleChk(event,'m3a')"></span></a>
+    <a class="sb-item" href="module-3b.html"><span class="sb-item-num">3b</span> L'Édification<span class="sb-chk" data-id="m3b" onclick="ddToggleChk(event,'m3b')"></span></a>
+    <a class="sb-item" href="module-3c.html"><span class="sb-item-num">3c</span> L'Invitation<span class="sb-chk" data-id="m3c" onclick="ddToggleChk(event,'m3c')"></span></a>
+    <a class="sb-item" href="module-3d.html"><span class="sb-item-num">3d</span> Les Objections<span class="sb-chk" data-id="m3d" onclick="ddToggleChk(event,'m3d')"></span></a>
+    <a class="sb-item" href="module-3e.html"><span class="sb-item-num">3e</span> Bibliothèque & Culture MLM<span class="sb-chk" data-id="m3e" onclick="ddToggleChk(event,'m3e')"></span></a>
+  </div></div>
+  <div class="sb-group"><div class="sb-group-hdr open" onclick="ddToggleGroup(this)"><span class="sb-mod-num">04</span> Démarrage<span class="sb-arrow">▶</span></div><div class="sb-items open">
+    <a class="sb-item" href="module-4a.html"><span class="sb-item-num">4a</span> Inscription & Statut<span class="sb-chk" data-id="m4a" onclick="ddToggleChk(event,'m4a')"></span></a>
+    <a class="sb-item active" href="module-4b.html"><span class="sb-item-num">4b</span> Adhésion, Pack & Z4F<span class="sb-chk" data-id="m4b" onclick="ddToggleChk(event,'m4b')"></span></a>
+    <a class="sb-item" href="module-4c.html"><span class="sb-item-num">4c</span> Fast Start<span class="sb-chk" data-id="m4c" onclick="ddToggleChk(event,'m4c')"></span></a>
+    <a class="sb-item" href="module-4d.html"><span class="sb-item-num">4d</span> Règles & Outils<span class="sb-chk" data-id="m4d" onclick="ddToggleChk(event,'m4d')"></span></a>
+    <a class="sb-item" href="module-4e.html"><span class="sb-item-num">4e</span> Inauguration<span class="sb-chk" data-id="m4e" onclick="ddToggleChk(event,'m4e')"></span></a>
+    <a class="sb-item" href="module-4f.html"><span class="sb-item-num">4f</span> Les Événements<span class="sb-chk" data-id="m4f" onclick="ddToggleChk(event,'m4f')"></span></a>
+  </div></div>
+  <div class="sb-group"><div class="sb-group-hdr" onclick="ddToggleGroup(this)"><span class="sb-mod-num">4★</span> Les Outils<span class="sb-arrow">▶</span></div><div class="sb-items"><a class="sb-item" href="module-4bis.html"><span class="sb-item-num">4★</span> Mes Outils & Ressources<span class="sb-chk" data-id="m4bis" onclick="ddToggleChk(event,'m4bis')"></span></a></div></div>
+  <div class="sb-group"><div class="sb-group-hdr coming"><span class="sb-mod-num">05</span> La Présentation & Closing</div></div>
+  <div class="sb-group"><div class="sb-group-hdr coming"><span class="sb-mod-num">06</span> Plan de Rémunération</div></div>
+  <div class="sb-group"><div class="sb-group-hdr coming"><span class="sb-mod-num">07</span> Prospection Réseaux Sociaux</div></div>
+</aside>
+
+<main id="main-content">
+
+  <div class="mod-hero">
+    <div class="mod-hero-badge">🚀 Module 4 · Chapitre b</div>
+    <h1>Adhésion, Pack<br>&amp; <em>Zinzino4Free</em></h1>
+    <p class="mod-hero-sub">Ce chapitre vous explique votre propre commande d'abonnement, le choix du kit partenaire et comment inscrire vos premiers clients — avec les bons chiffres et les bonnes procédures.</p>
+  </div>
+
+  <div class="action-bar">
+    <button class="action-btn" onclick="ddMarkDone('m4b',this)">✅ Marquer comme lu</button>
+  </div>
+
+  <!-- Navigation -->
+  <div class="chap-nav">
+    <button class="chap-btn active" onclick="goChap('c1',this)">📦 1. Votre Auto Order</button>
+    <button class="chap-btn" onclick="goChap('c2',this)">🎁 2. Zinzino4Free</button>
+    <button class="chap-btn" onclick="goChap('c3',this)">💎 3. Les Kits Partenaire</button>
+    <button class="chap-btn" onclick="goChap('c4',this)">👥 4. Inscrire un Client</button>
+    <button class="chap-btn" onclick="goChap('c5',this)">🖥️ 5. Le Back-Office</button>
+  </div>
+
+  <!-- ═══ C1 — AUTO ORDER ═══ -->
+  <div class="chap-section active" id="c1">
+
+    <div class="slbl">Votre première commande — l'Auto Order Z4F</div>
+
+    <p>Avant d'inscrire quoi que ce soit, vous devez vous-même avoir votre propre commande automatique mensuelle active. C'est à la fois votre abonnement personnel aux produits et la condition pour être éligible au programme Zinzino4Free.</p>
+
+    <div class="hl"><strong>Être le produit du produit.</strong> Vous ne pouvez pas recommander ce que vous ne consommez pas vous-même. Votre témoignage personnel est votre meilleur outil commercial.</div>
+
+    <div class="ao-card">
+      <div class="ao-title">📦 Ce que contient votre Auto Order mensuel (Z4F)</div>
+      <div class="ao-items">
+        <div class="ao-item">1 produit Balance de votre choix (BalanceOil, Zinobiotic, etc.)</div>
+        <div class="ao-item">1 BalanceTest (Test Kit) tous les 4 mois — pour mesurer votre progression</div>
+        <div class="ao-item">Accès à l'application <strong>GoCore</strong> — développement personnel et professionnel</div>
+        <div class="ao-item">Un Back-Office efficace et des pages d'accueil personnalisées à partager</div>
+        <div class="ao-item"><strong>= 10 crédits (RCB)</strong> — soit 20 crédits comptabilisés grâce au Recurring Credit Bonus</div>
+      </div>
+    </div>
+
+    <div class="slbl">Livraison tous les 2 mois</div>
+
+    <div class="livraison-card">
+      <div class="lc-item">
+        <span class="lc-icon">📅</span>
+        <div class="lc-title">Vous payez chaque mois</div>
+        <div class="lc-text">Votre abonnement est débité mensuellement — le montant reste constant.</div>
+      </div>
+      <div class="lc-item">
+        <span class="lc-icon">📦</span>
+        <div class="lc-title">Vous recevez tous les 2 mois</div>
+        <div class="lc-text">Zinzino regroupe vos commandes en un seul colis tous les deux mois avec le <strong>double du contenu</strong> — moins d'empreinte carbone, frais de port réduits de moitié.</div>
+      </div>
+    </div>
+
+    <div class="mbox">
+      <div class="mt">🔗 Comment activer votre Auto Order</div>
+      <div class="mtxt">
+        Depuis votre Back-Office Partenaire sur zinzino.com :<br><br>
+        <strong>1.</strong> Cliquez sur <strong>Z4F</strong> ou allez dans <strong>Partner Kits → Z4F Auto Order</strong><br>
+        <strong>2.</strong> Choisissez votre produit Balance préféré<br>
+        <strong>3.</strong> Validez l'abonnement mensuel<br><br>
+        Votre abonnement sera gratuit dès que vous aurez 4 clients premiers générant 40 crédits combinés (ou 20 crédits pendant vos 120 premiers jours).
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ C2 — Z4F ═══ -->
+  <div class="chap-section" id="c2">
+
+    <div class="slbl">Zinzino4Free — Vos produits gratuits</div>
+
+    <div class="z4f-visual">
+      <h3>🎁 "Aimez-le. Partagez-le. Obtenez des produits gratuits."</h3>
+      <div class="z4f-steps-list">
+        <div class="zsl-item">
+          <div class="zsl-num">1</div>
+          <div class="zsl-text">Activez votre <strong>Auto Order Z4F</strong> — votre abonnement mensuel personnel aux produits.</div>
+        </div>
+        <div class="zsl-item">
+          <div class="zsl-num">2</div>
+          <div class="zsl-text">Inscrivez au moins <strong>4 clients premiers</strong> (abonnement Premier Kit) — ils doivent être vos clients de <strong>première génération</strong>.</div>
+        </div>
+        <div class="zsl-item">
+          <div class="zsl-num">3</div>
+          <div class="zsl-text">La valeur en crédits combinée de leurs achats mensuels doit atteindre <strong>40 crédits</strong> (soit 4 clients avec un BalanceOil chacun = 4 × 4 crédits = 16... vérifiez toujours les crédits réels par produit dans votre Back-Office).</div>
+        </div>
+        <div class="zsl-item">
+          <div class="zsl-num" style="background:linear-gradient(135deg,var(--gold),#E8C56A);color:#1E0B40;">🎁</div>
+          <div class="zsl-text"><strong>Votre abonnement mensuel vous est offert</strong> — vous ne payez que les frais de port.</div>
+        </div>
+      </div>
+      <div class="z4f-warn">
+        ⚡ <strong>Coup de pouce démarrage :</strong> Pendant vos <strong>120 premiers jours</strong> (4 premières commandes = période Q-Team), seulement <strong>20 crédits</strong> générés par vos clients suffisent pour déclencher la gratuité.
+      </div>
+    </div>
+
+    <div class="slbl">Point important à comprendre</div>
+
+    <div class="mbox" style="border-left-color:#D97706; background:#FFFBEB;">
+      <div class="mt" style="color:#D97706;">💡 Quand votre Z4F est gratuit, il ne génère pas de crédits pour votre sponsor</div>
+      <div class="mtxt">
+        Votre Auto Order Z4F génère normalement <strong>10 crédits</strong> (20 avec le RCB) pour votre propre comptabilité. Mais lorsque votre abonnement est <strong>offert grâce au Z4F</strong>, cette commande gratuite n'est pas comptabilisée dans les crédits de votre sponsor.<br><br>
+        En revanche, les commandes de vos <strong>clients premiers</strong> qui permettent de rendre votre Z4F gratuit <strong>génèrent bien des crédits</strong> pour vous et votre sponsor. C'est le principe : vous aidez vos clients, ils vous aident en retour.
+      </div>
+    </div>
+
+    <div class="slbl">Tableau des conditions Z4F</div>
+
+    <table class="enroll-tbl">
+      <thead><tr><th>Période</th><th>Clients 1re génération requis</th><th>Crédits combinés requis</th></tr></thead>
+      <tbody>
+        <tr><td><strong>4 premiers mois</strong> (Q-Team, période de grâce)</td><td>4 PCP</td><td>20 crédits</td></tr>
+        <tr><td><strong>À partir du 5e mois</strong></td><td>4 PCP</td><td>40 crédits</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <!-- ═══ C3 — KITS PARTENAIRE ═══ -->
+  <div class="chap-section" id="c3">
+
+    <div class="slbl">Les kits partenaire — facultatifs mais puissants</div>
+
+    <p>Un kit partenaire <strong>n'est pas obligatoire</strong> pour démarrer. Vous pouvez démarrer sans kit. Mais il constitue un levier important pour accélérer votre progression dans les 120 premiers jours.</p>
+
+    <div class="kits-grid">
+
+      <div class="kit-card">
+        <div class="kit-hdr kh-basic">
+          <span class="kit-emoji">🥈</span>
+          <span class="kit-name kit-name-basic">Basic Kit</span>
+          <span class="kit-badge kb-b">Entrée</span>
+        </div>
+        <div class="kit-body">
+          <div class="kit-row"><span class="kr-label">Crédits à l'achat</span><span class="kr-val">30 Cr</span></div>
+          <div class="kit-row"><span class="kr-label">Crédits avec ECB (×2)</span><span class="kr-val">60 Cr</span></div>
+          <div class="kit-row"><span class="kr-label">Enrollment Points</span><span class="kr-val">1 point</span></div>
+          <div class="kit-row"><span class="kr-label">Centres de revenus</span><span class="kr-val">3 (IC 001, 002, 003)</span></div>
+          <div class="kit-row"><span class="kr-label">Remboursement</span><span class="kr-val">Upgrade possible → Ultimate</span></div>
+          <div class="kit-note">Kit d'entrée. Démarre l'ECB et la période de grâce. Upgrade vers Ultimate possible dans les 6 premiers mois.</div>
+        </div>
+      </div>
+
+      <div class="kit-card">
+        <div class="kit-hdr kh-advanced">
+          <span class="kit-emoji">🥇</span>
+          <span class="kit-name kit-name-advanced">Advanced Kit</span>
+          <span class="kit-badge kb-a">Intermédiaire</span>
+        </div>
+        <div class="kit-body">
+          <div class="kit-row"><span class="kr-label">Crédits à l'achat</span><span class="kr-val">90 Cr</span></div>
+          <div class="kit-row"><span class="kr-label">Crédits avec ECB (×2)</span><span class="kr-val">180 Cr</span></div>
+          <div class="kit-row"><span class="kr-label">Enrollment Points</span><span class="kr-val">2 points</span></div>
+          <div class="kit-row"><span class="kr-label">Centres de revenus</span><span class="kr-val">3 (IC 001, 002, 003)</span></div>
+          <div class="kit-row"><span class="kr-label">Remboursement</span><span class="kr-val">Upgrade possible → Ultimate</span></div>
+          <div class="kit-note">Gamme élargie. Upgrade vers Ultimate possible dans les 6 premiers mois pour accéder au remboursement intégral.</div>
+        </div>
+      </div>
+
+      <div class="kit-card kit-featured">
+        <div class="kit-hdr kh-ultimate">
+          <span class="kit-emoji">💎</span>
+          <span class="kit-name kit-name-ultimate">Ultimate Kit</span>
+          <span class="kit-badge kb-u">Full Refund</span>
+        </div>
+        <div class="kit-body">
+          <div class="kit-row"><span class="kr-label">Crédits à l'achat</span><span class="kr-val kr-val gold">150 Cr</span></div>
+          <div class="kit-row"><span class="kr-label">Crédits avec ECB (×2)</span><span class="kr-val kr-val gold">300 Cr</span></div>
+          <div class="kit-row"><span class="kr-label">Enrollment Points</span><span class="kr-val kr-val gold">3 points</span></div>
+          <div class="kit-row"><span class="kr-label">Centres de revenus</span><span class="kr-val">3 (IC 001, 002, 003)</span></div>
+          <div class="kit-row"><span class="kr-label">Remboursement</span><span class="kr-val kr-val gold">Intégral si A-Team en 365j</span></div>
+          <div class="kit-note">Kit premium. Remboursement intégral si vous atteignez 25 clients (A-Team) dans les 365 jours suivant l'achat, en maintenant votre abonnement actif. Voir conditions dans votre Back-Office → Campagne.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="slbl">Ce que les kits apportent</div>
+
+    <div class="cards-grid">
+      <div class="ccard"><span class="cc-icon">✖️2</span><div class="cc-title">ECB — Crédits doublés pendant 120 jours</div><div class="cc-text">L'Enrollment Credit Bonus double vos crédits sur toutes les nouvelles commandes d'abonnements pendant vos 120 premiers jours. C'est le levier le plus puissant du démarrage.</div></div>
+      <div class="ccard"><span class="cc-icon">🏢</span><div class="cc-title">3 Centres de revenus</div><div class="cc-text">Sans kit : 1 seul centre de revenus (IC 001). Avec n'importe quel kit : 3 centres (IC 001, 002, 003). À terme, vous pouvez toucher des commissions plusieurs fois sur les mêmes volumes.</div></div>
+      <div class="ccard"><span class="cc-icon">🎯</span><div class="cc-title">Enrollment Points pour le Fast Start</div><div class="cc-text">Les étapes 2 et 3 du Fast Start nécessitent des Enrollment Points (6 points puis 12 points). Basic = 1 pt, Advanced = 2 pts, Ultimate = 3 pts. Le kit de vos partenaires compte aussi.</div></div>
+      <div class="ccard"><span class="cc-icon">🛡️</span><div class="cc-title">Période de grâce activée</div><div class="cc-text">L'achat d'un kit active votre période de grâce : le mois d'inscription + 4 mois suivants avec des règles allégées (seulement 10 crédits requis pour rester actif).</div></div>
+    </div>
+
+    <div class="slbl">Les Enrollment Points — comment ça fonctionne</div>
+
+    <table class="enroll-tbl">
+      <thead><tr><th>Kit</th><th>Points</th><th>Objectif étape 2 (Enroll 2)</th><th>Objectif étape 3 (Help 2)</th></tr></thead>
+      <tbody>
+        <tr><td>Basic (×1)</td><td><div class="ep-dots"><div class="ep-dot"></div></div> 1 pt</td><td>6 Basic = 6 pts ✓</td><td>12 Basic = 12 pts ✓</td></tr>
+        <tr><td>Advanced (×1)</td><td><div class="ep-dots"><div class="ep-dot"></div><div class="ep-dot"></div></div> 2 pts</td><td>3 Advanced = 6 pts ✓</td><td>6 Advanced = 12 pts ✓</td></tr>
+        <tr><td>Ultimate (×1)</td><td><div class="ep-dots"><div class="ep-dot"></div><div class="ep-dot"></div><div class="ep-dot"></div></div> 3 pts</td><td>2 Ultimate = 6 pts ✓</td><td>4 Ultimate = 12 pts ✓</td></tr>
+        <tr><td colspan="4" style="font-style:italic;color:var(--text2);font-size:var(--fs-xs);">Les kits peuvent être combinés. Il faut au moins 1 partenaire à gauche et 1 à droite pour l'étape 2.</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <!-- ═══ C4 — INSCRIRE UN CLIENT ═══ -->
+  <div class="chap-section" id="c4">
+
+    <div class="slbl">Comment inscrire un client — la commande dynamique</div>
+
+    <p>Pour qu'un client génère des crédits et des PCP pour vous, il doit être inscrit en tant que <strong>Client Premier</strong> avec un abonnement <strong>Premier Kit</strong>. Voici la procédure exacte depuis votre Back-Office Partenaire.</p>
+
+    <div class="cmd-steps">
+      <div class="cmd-item">
+        <div class="cmd-num">1</div>
+        <div>
+          <div class="cmd-title">Connectez-vous à votre Back-Office Partenaire</div>
+          <div class="cmd-text">Sur zinzino.com → Connexion → entrez vos identifiants partenaire.</div>
+        </div>
+      </div>
+      <div class="cmd-item">
+        <div class="cmd-num">2</div>
+        <div>
+          <div class="cmd-title">Allez dans "Boutique" → "Boutique Partenaire"</div>
+          <div class="cmd-text">Ou directement via le menu latéral gauche. Sélectionnez le pays de livraison du client.</div>
+        </div>
+      </div>
+      <div class="cmd-item">
+        <div class="cmd-num">3</div>
+        <div>
+          <div class="cmd-title">Ajoutez les produits au panier</div>
+          <div class="cmd-text">BalanceOil+, ZinoBiotic+, Protect, ou autre selon le profil et les besoins du client. Choisissez l'option <strong>avec abonnement</strong> (Premier Kit) — c'est indispensable pour générer vos PCP récurrents.</div>
+        </div>
+      </div>
+      <div class="cmd-item">
+        <div class="cmd-num">4</div>
+        <div>
+          <div class="cmd-title">Créez le lien de commande personnalisé</div>
+          <div class="cmd-text">Panier → "Créer un lien" ou "Partager ce panier". Un lien unique contenant votre identifiant partenaire est généré. Toute commande passée via ce lien est automatiquement associée à votre compte.</div>
+        </div>
+      </div>
+      <div class="cmd-item">
+        <div class="cmd-num">5</div>
+        <div>
+          <div class="cmd-title">Partagez le lien avec votre client</div>
+          <div class="cmd-text">Par WhatsApp, SMS, email ou messagerie. Le client remplit ses coordonnées et paie directement lui-même.</div>
+          <div class="cmd-warn">⚠️ Si vous préparez la commande directement dans votre BO sans envoyer de lien, cochez <strong>"Payer plus tard"</strong> pour que ce soit le client qui paie — sinon c'est vous qui êtes débité.</div>
+        </div>
+      </div>
+      <div class="cmd-item" style="border:2px solid var(--vm);">
+        <div class="cmd-num" style="background:linear-gradient(135deg,var(--gold),#E8C56A);color:#1E0B40;">✓</div>
+        <div>
+          <div class="cmd-title">Le client reçoit la confirmation et accède à son espace</div>
+          <div class="cmd-text">Il reçoit un email de confirmation. Sa commande est visible dans votre Back-Office → Mes Clients. Vous suivez son abonnement, ses renouvellements et ses crédits générés en temps réel.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hl"><strong>Stratégie importante :</strong> Enregistrez vos <strong>10 premiers abonnements clients depuis votre BO Partenaire</strong> — cela vous garantit de générer les crédits nécessaires correctement. Après ces 10 premiers clients, vous pouvez également laisser les clients s'inscrire directement depuis votre page boutique personnelle.</div>
+
+  </div>
+
+  <!-- ═══ C5 — BACK-OFFICE ═══ -->
+  <div class="chap-section" id="c5">
+
+    <div class="slbl">Comprendre vos deux Back-Offices</div>
+
+    <p>Chez Zinzino, il existe <strong>deux espaces distincts</strong> selon votre rôle. Les confondre est la principale source d'erreurs au démarrage. Voici comment les distinguer clairement.</p>
+
+    <div class="bo-compare">
+
+      <div class="bo-panel">
+        <div class="bo-panel-hdr bph-partner">🟣 Back-Office Partenaire</div>
+        <img class="bo-panel-img" src="BO_PARTENAIRE_1.JPG" alt="Back-Office Partenaire - menu principal" onerror="this.style.display='none'">
+        <img class="bo-panel-img" src="BO_PARTENAIRE_2.JPG" alt="Back-Office Partenaire - détail" onerror="this.style.display='none'">
+        <div class="bo-panel-body">
+          <div class="bo-panel-item">Gérer votre activité et votre équipe</div>
+          <div class="bo-panel-item">Suivre vos crédits, commissions et rang</div>
+          <div class="bo-panel-item">Voir vos Clients et leur progression</div>
+          <div class="bo-panel-item">Accéder au Fast Start et au Reporting</div>
+          <div class="bo-panel-item">Créer des commandes dynamiques clients</div>
+          <div class="bo-panel-item">Accéder à la File Library (formation)</div>
+          <div class="bo-alert tip">💡 C'est votre espace de travail quotidien en tant que partenaire.</div>
+        </div>
+      </div>
+
+      <div class="bo-panel">
+        <div class="bo-panel-hdr bph-client">🟢 Compte Client (BO Client)</div>
+        <img class="bo-panel-img" src="compte_CLIENT_1.JPG" alt="Compte Client Zinzino" onerror="this.style.display='none'">
+        <img class="bo-panel-img" src="Compte_CLIENT_2.JPG" alt="Compte Client Zinzino - détail" onerror="this.style.display='none'">
+        <div class="bo-panel-body">
+          <div class="bo-panel-item">Gérer ses commandes et abonnements</div>
+          <div class="bo-panel-item">Consulter ses factures</div>
+          <div class="bo-panel-item">Voir son solde ZinoCash (cashback fidélité)</div>
+          <div class="bo-panel-item">Gérer sa commande automatique mensuelle</div>
+          <div class="bo-panel-item">Copier l'adresse de sa boutique personnelle</div>
+          <div class="bo-alert warn">⚠️ Attention : Si vous préparez une commande pour un client depuis votre BO Partenaire, cochez "Payer plus tard" — sinon c'est vous qui êtes débité.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mbox">
+      <div class="mt">📺 Tutoriel vidéo — Formation Back-Office Partenaire</div>
+      <div class="mtxt">
+        Un tutoriel complet est disponible sur YouTube pour prendre en main votre Back-Office partenaire étape par étape.<br><br>
+        <a href="https://youtu.be/B13cfITSzig" target="_blank" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--vm);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:var(--fs-xs);padding:.5rem 1rem;border-radius:8px;text-decoration:none;margin-top:.4rem;">▶ Voir le tutoriel Back-Office →</a>
+      </div>
+    </div>
+
+    <div class="slbl">Les menus clés du Back-Office Partenaire à connaître</div>
+
+    <div class="cards-grid">
+      <div class="ccard"><span class="cc-icon">⚡</span><div class="cc-title">Statut Rapide</div><div class="cc-text">Votre situation en un coup d'œil : rang actuel, crédits, PCP. Le premier endroit à regarder chaque semaine.</div></div>
+      <div class="ccard"><span class="cc-icon">📊</span><div class="cc-title">Reporting → Fast Start</div><div class="cc-text">Suivez votre progression sur les 4 étapes du Fast Start en temps réel. Indispensable pendant vos 120 premiers jours.</div></div>
+      <div class="ccard"><span class="cc-icon">👥</span><div class="cc-title">Mes Clients</div><div class="cc-text">La liste de tous vos clients inscrits, leurs abonnements actifs et le nombre de crédits qu'ils génèrent chaque mois.</div></div>
+      <div class="ccard"><span class="cc-icon">🌐</span><div class="cc-title">Organisation</div><div class="cc-text">Votre arbre binaire gauche/droite. Visualisez votre équipe, leur rang et leur activité. Essentiel pour piloter la duplication.</div></div>
+      <div class="ccard"><span class="cc-icon">💶</span><div class="cc-title">Finances</div><div class="cc-text">Vos commissions semaine par semaine, l'historique de paiements et vos factures PDF. Les commissions sont calculées du jeudi au mercredi.</div></div>
+      <div class="ccard"><span class="cc-icon">📚</span><div class="cc-title">File Library</div><div class="cc-text">La bibliothèque officielle Zinzino : fiches produits, plan de rémunération officiel, supports de présentation. À explorer dès le démarrage.</div></div>
+    </div>
+
+    <div class="slbl">Mes actions</div>
+    <ul class="checklist">
+      <li onclick="ddToggleCl(this)"><div class="cl-box"></div>J'ai activé mon Auto Order Z4F depuis mon Back-Office Partenaire</li>
+      <li onclick="ddToggleCl(this)"><div class="cl-box"></div>J'ai choisi mon kit partenaire (ou décidé de démarrer sans kit) avec mon sponsor</li>
+      <li onclick="ddToggleCl(this)"><div class="cl-box"></div>Je comprends la différence entre l'Auto Order Z4F gratuit et payant et son impact sur les crédits</li>
+      <li onclick="ddToggleCl(this)"><div class="cl-box"></div>Je sais créer une commande dynamique pour un client depuis mon BO Partenaire</li>
+      <li onclick="ddToggleCl(this)"><div class="cl-box"></div>Je connais la différence entre le BO Partenaire et le compte client</li>
+      <li onclick="ddToggleCl(this)"><div class="cl-box"></div>J'ai regardé le tutoriel Back-Office Partenaire</li>
+      <li onclick="ddToggleCl(this)"><div class="cl-box"></div>Je suis prêt(e) à passer au chapitre suivant : Fast Start</li>
+    </ul>
+
+    <div class="nav-btns">
+      <a class="nav-btn nav-btn-prev" href="module-4a.html">← 4a Inscription & Statut</a>
+      <a class="nav-btn nav-btn-next" href="module-4c.html">4c — Fast Start →</a>
+    </div>
+
+  </div>
+
+</main>
+</div>
+
+<script src="search-index.js"></script>
+<script src="dd-app.js"></script>
+<script>
+ddInit('m4b');
+
+function goChap(id, btn) {
+  document.querySelectorAll('.chap-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.chap-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: document.querySelector('.chap-nav').offsetTop - 70, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
